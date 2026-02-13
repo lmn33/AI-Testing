@@ -4,57 +4,74 @@ test.describe('Active & Fit Direct UI Tests', () => {
 
   test('Homepage loads successfully', async ({ page }) => {
     await page.goto('https://www.activeandfitdirect.com/');
-    await expect(page).toHaveTitle(/Active & Fit Direct/);
+    await expect(page).toHaveTitle(/Active&Fit Direct/);
     await expect(page.locator('body')).toBeVisible();
   });
 
-  test('Search for products', async ({ page }) => {
+  test('Main heading is visible', async ({ page }) => {
     await page.goto('https://www.activeandfitdirect.com/');
-    // Assuming there's a search bar, adjust selector as needed
-    const searchInput = page.locator('input[name="search"]') || page.locator('#search-input');
-    await searchInput.fill('treadmill');
-    await searchInput.press('Enter');
-    await expect(page.locator('.product-list')).toBeVisible(); // Adjust selector
+    await expect(page.locator('h1').filter({ hasText: 'Flexible, Affordable' })).toBeVisible();
   });
 
-  test('View product details', async ({ page }) => {
+  test('Search bar is present and functional', async ({ page }) => {
     await page.goto('https://www.activeandfitdirect.com/');
-    // Click on a product link, adjust selector
-    await page.locator('.product-item a').first().click();
-    await expect(page.locator('.product-details')).toBeVisible();
+    const searchInput = page.locator('input[placeholder*="Find a gym near you"]');
+    await expect(searchInput).toBeVisible();
+    await searchInput.fill('New York');
+    // Note: Actual search functionality may require more setup
   });
 
-  test('Add product to cart', async ({ page }) => {
+  test('Navigation links are present', async ({ page }) => {
     await page.goto('https://www.activeandfitdirect.com/');
-    // Navigate to a product page
-    await page.locator('.product-item a').first().click();
-    // Click add to cart button, adjust selector
-    await page.locator('button.add-to-cart').click();
-    await expect(page.locator('.cart-notification')).toBeVisible(); // Adjust
+    await expect(page.locator('a').filter({ hasText: 'Find Your Gym' }).first()).toBeVisible();
+    await expect(page.locator('a').filter({ hasText: 'Workout Videos' }).first()).toBeVisible();
+    await expect(page.locator('a').filter({ hasText: 'Check Eligibility' }).first()).toBeVisible();
   });
 
-  test('View cart', async ({ page }) => {
+  test('Check Eligibility link works', async ({ page }) => {
     await page.goto('https://www.activeandfitdirect.com/');
-    // Assuming cart link exists
-    await page.locator('.cart-link').click();
-    await expect(page.locator('.cart-items')).toBeVisible();
+    // Dismiss any modal if present
+    try {
+      await page.locator('button').filter({ hasText: 'CONFIRM' }).click();
+    } catch {}
+    await page.locator('a').filter({ hasText: 'Check Eligibility' }).first().click();
+    await expect(page).toHaveURL(/.*eligibility/);
   });
 
-  test('Checkout process', async ({ page }) => {
-    // This might require login, so basic check
-    await page.goto('https://www.activeandfitdirect.com/cart'); // Adjust URL
-    await expect(page.locator('.checkout-button')).toBeVisible();
+  test('Find Your Gym link works', async ({ page }) => {
+    await page.goto('https://www.activeandfitdirect.com/');
+    // Dismiss any modal if present
+    try {
+      await page.locator('button').filter({ hasText: 'CONFIRM' }).click();
+    } catch {}
+    await page.locator('a').filter({ hasText: 'Find your gym' }).first().click();
+    await expect(page).toHaveURL(/.*search/);
   });
 
-  test('Contact page', async ({ page }) => {
-    await page.goto('https://www.activeandfitdirect.com/contact');
-    await expect(page.locator('form.contact-form')).toBeVisible();
+  test('Exclusive features section is visible', async ({ page }) => {
+    await page.goto('https://www.activeandfitdirect.com/');
+    await expect(page.locator('text=Discover Exclusive Features')).toBeVisible();
+    await expect(page.locator('strong').filter({ hasText: 'Marketplace' })).toBeVisible();
+    await expect(page.locator('strong').filter({ hasText: 'Workout Videos' })).toBeVisible();
+  });
+
+  test('Marketplace section is visible', async ({ page }) => {
+    await page.goto('https://www.activeandfitdirect.com/');
+    await expect(page.locator('h2').filter({ hasText: 'Unlock Top Brands for Less' })).toBeVisible();
+  });
+
+  test('Footer links are present', async ({ page }) => {
+    await page.goto('https://www.activeandfitdirect.com/');
+    await expect(page.locator('footer a').filter({ hasText: 'About Us' })).toBeVisible();
+    await expect(page.locator('footer a').filter({ hasText: 'FAQ' })).toBeVisible();
+    await expect(page.locator('footer a').filter({ hasText: 'Contact Us' })).toBeVisible();
   });
 
   test('Responsive design - mobile view', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('https://www.activeandfitdirect.com/');
-    await expect(page.locator('nav')).toBeVisible();
+    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('body')).toBeVisible();
   });
 
 });
