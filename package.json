@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ui-test": "playwright test"
+    "ui-test": "playwright test tests/ui_test.js",
+    "performance-test": "playwright test tests/performance-tests/"
   },
   "keywords": [],
   "author": "",

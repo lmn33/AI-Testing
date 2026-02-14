@@ -10,9 +10,9 @@ test.describe('Performance Tests', () => {
       port: 9222,
       thresholds: {
         performance: 40,
-        accessibility: 50,
-        'best-practices': 50,
-        seo: 50,
+        accessibility: 100,
+        'best-practices': 70,
+        seo: 90,
       },
     });
   });
