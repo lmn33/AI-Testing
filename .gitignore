@@ -3,3 +3,4 @@ package-lock.json
 playwright/test/index.js
 test-results/
 node_modules/
+metrics/

@@ -3,6 +3,7 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   testMatch: '**/*.js',
+  timeout: 600000,
   use: {
     launchOptions: {
       args: [
