@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "ui-test": "playwright test tests/websites/ui_test.js",
-    "performance-test": "playwright test tests/performance-tests/"
+    "performance-test": "playwright test tests/performance-tests/",
+    "smoke": "playwright test tests/websites/AFD/AFD_SmokeTests.js"
   },
   "keywords": [],
   "author": "",
