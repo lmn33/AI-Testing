@@ -68,4 +68,15 @@ test.describe('Smoke Tests for Active & Fit Direct', () => {
     await expect(page.locator('body')).toBeVisible();
   });
 
+  test('Mobile responsiveness - search functionality', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto(baseURL);
+    const searchInput = page.locator('input[placeholder*="Find a gym near you"]');
+    await expect(searchInput).toBeVisible();
+    await searchInput.fill('92101');
+    await page.keyboard.press('Enter');
+    await expect(searchInput).toHaveValue('92101');
+    await expect(page.locator('body')).toContainText('92101');
+  });
+
 });

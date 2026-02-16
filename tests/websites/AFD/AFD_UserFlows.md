@@ -48,3 +48,6 @@
 ## 9. Mobile Responsiveness
 - User accesses site on mobile device (viewport 375x667)
 - Homepage elements remain visible and functional
+- User types 92101 into the search textfield
+- User clicks the Enter key
+- User is Navigated to the Search page with 92101 visible on the page
