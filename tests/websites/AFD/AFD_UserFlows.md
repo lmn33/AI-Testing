@@ -51,3 +51,9 @@
 - User types 92101 into the search textfield
 - User clicks the Enter key
 - User is Navigated to the Search page with 92101 visible on the page
+
+## 10. Analytics - Google Analytics calls
+- User navigates to https://www.activeandfitdirect.com/search
+- Page loads and any modals are dismissed if present
+- The page makes network requests to Google Analytics endpoints (for example `google-analytics.com`, `analytics.google.com`, `googletagmanager.com`)
+- Verify that at least one analytics/measurement request is sent (e.g., `/collect`, `/g/collect`, or `gtag/js`)

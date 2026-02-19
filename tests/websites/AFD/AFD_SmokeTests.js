@@ -79,4 +79,31 @@ test.describe('Smoke Tests for Active & Fit Direct', () => {
     await expect(page.locator('body')).toContainText('92101');
   });
 
+  test('Search page fires Google Analytics requests', async ({ page }) => {
+    const searchUrl = `${baseURL}search`;
+    const gaHits = [];
+
+    page.on('request', (req) => {
+      const u = req.url();
+      if (/google-analytics\.com|analytics\.google\.com|googletagmanager\.com/.test(u)) {
+        gaHits.push(u);
+      }
+    });
+
+    await page.goto(searchUrl);
+    try {
+      await page.locator('button').filter({ hasText: 'CONFIRM' }).click();
+    } catch {}
+
+    const gaPattern = /google-analytics\.com|analytics\.google\.com|googletagmanager\.com/;
+    try {
+      const req = await page.waitForRequest(r => gaPattern.test(r.url()), { timeout: 15000 });
+      gaHits.push(req.url());
+    } catch (e) {
+      // no matching request within timeout
+    }
+
+    await expect(gaHits.length).toBeGreaterThan(0);
+  });
+
 });
